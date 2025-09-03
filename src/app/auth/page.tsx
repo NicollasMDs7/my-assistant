@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Calendar as CalendarIcon } from "lucide-react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -56,9 +56,14 @@ export default function AuthPage() {
   const handleShowConfirmPassword = () =>
     setShowConfirmPassword(!showConfirmPassword);
 
-  const handleGoogleAuth = (response: any) => {
-    console.log("Google login response:", response);
+  const handleGoogleAuth = (response: CredentialResponse) => {
+    if (response.credential) {
+      console.log("Google login credential:", response.credential);
+    } else {
+      console.log("Nenhuma credencial recebida do Google");
+    }
   };
+  
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
